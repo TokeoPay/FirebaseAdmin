@@ -12,7 +12,7 @@ import Foundation
 
  Use this property to access the `FirebaseApp` instance throughout your app.
  */
-public class FirebaseApp {
+public final class FirebaseApp: Sendable {
 
     /**
     A class that represents a Firebase app.
@@ -30,15 +30,27 @@ public class FirebaseApp {
 
      This method attempts to load the service account from the specified JSON file and assign it to the `serviceAccount` property of the `FirebaseApp` instance. If the file cannot be found, this method throws a `FileNotFoundError`.
      */
-    public static func initialize(fileName: String = "ServiceAccount") {
+//    public static func initialize(fileName: String = "ServiceAccount") {
+//        do {
+//            let serviceAccount = try loadServiceAccount(from: fileName)
+//            initialize(serviceAccount: serviceAccount)
+//        } catch {
+//            fatalError("Service Account is not found.")
+//        }
+//    }
+
+    public init(fileName: String = "ServiceAccount") {
         do {
-            let serviceAccount = try loadServiceAccount(from: fileName)
-            initialize(serviceAccount: serviceAccount)
+            let serviceAccount = try FirebaseApp.loadServiceAccount(from: fileName)
+            self.serviceAccount = serviceAccount
         } catch {
             fatalError("Service Account is not found.")
         }
     }
-
+    public init(serviceAccount: ServiceAccount!) {
+        self.serviceAccount = serviceAccount
+    }
+    
     /**
      Initializes the Firebase app with a given service account.
 
@@ -46,16 +58,16 @@ public class FirebaseApp {
 
      Use this method to initialize the `FirebaseApp` instance with a service account object that has already been loaded.
      */
-    public static func initialize(serviceAccount: ServiceAccount) {
-        app.serviceAccount = serviceAccount
-    }
+//    public static func initialize(serviceAccount: ServiceAccount) {
+//        app.serviceAccount = serviceAccount
+//    }
 
     /**
      The service account for the Firebase app.
 
      The service account contains the credentials required to authenticate with Firebase services.
      */
-    public var serviceAccount: ServiceAccount!
+    public let serviceAccount: ServiceAccount
 
     /**
      Loads a `ServiceAccount` object from a JSON file.
