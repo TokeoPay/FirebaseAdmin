@@ -29,7 +29,7 @@ extension Firestore {
      
      - Returns: A `Firestore` instance initialized with the default `FirebaseApp` instance.
      */
-    public static func firestore(app: FirebaseApp = FirebaseApp.app) -> Firestore {
+    public static func firestore(app: FirebaseApp = FirebaseApp.app!) -> Firestore {
         let firestore = Firestore(projectId: app.serviceAccount.projectId)
         do {
             firestore.accessTokenProvider = try AccessTokenProvider(serviceAccount: app.serviceAccount)

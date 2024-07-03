@@ -21,7 +21,7 @@ public final class FirebaseApp: Sendable {
 
     The FirebaseApp class also contains a property named serviceAccount, which holds the loaded ServiceAccount object for the Firebase app.
     */
-    public static var app: FirebaseApp = FirebaseApp()
+    public static var app: FirebaseApp? = nil
 
     /**
      Initializes the Firebase app with a service account loaded from a JSON file.
@@ -43,12 +43,14 @@ public final class FirebaseApp: Sendable {
         do {
             let serviceAccount = try FirebaseApp.loadServiceAccount(from: fileName)
             self.serviceAccount = serviceAccount
+            FirebaseApp.app = self
         } catch {
             fatalError("Service Account is not found.")
         }
     }
     public init(serviceAccount: ServiceAccount!) {
         self.serviceAccount = serviceAccount
+        FirebaseApp.app = self
     }
     
     /**
